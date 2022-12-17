@@ -1,0 +1,21 @@
+{
+  "ENV": "development",
+
+  "username": "root",
+  "password": "",
+  "database": "konnex",
+  "sequelizeOpts": {
+    "dialect": "mysql",
+    "port": 3306,
+    "logging": false,
+    "host": "127.0.0.1",
+    "timezone": "-05:00",
+    "pool": {
+      "max": 100,
+      "min": 0,
+      "acquire": 100000
+    }
+  },
+  "port": "4000",
+  "domain": "http://localhost"
+}

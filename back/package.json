@@ -1,0 +1,26 @@
+{
+  "name": "konnex",
+  "version": "1.0.0",
+  "description": "Api konnex test",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/app.js --delay 500ms --exec babel-node --presets --experimental-json-modules @babel/preset-env"
+  },
+  "author": "Leonardo Restrepo",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/node": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.27.0"
+  }
+}
