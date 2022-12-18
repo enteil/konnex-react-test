@@ -2,19 +2,19 @@ export type TextInputDTO = {
   value: string;
   onChange: any;
 };
-export const EmailInput = (props: TextInputDTO) => {
+export const NameInput = (props: TextInputDTO) => {
   const { value, onChange } = props;
   return (
     <>
       <div className="InputGroupStyles">
-        <label htmlFor="email" className="InputLabelStyles">
-          Email
+        <label htmlFor="name" className="InputLabelStyles">
+          Nombre
         </label>
         <input
-          id={"email"}
-          placeholder={"correo@mail.com"}
+          id={"name"}
+          placeholder={"Tu nombre"}
           className={"InputStyles"}
-          type={"email"}
+          type={"text"}
           value={value}
           onChange={onChange}
         />

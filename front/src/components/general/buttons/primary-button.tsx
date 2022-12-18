@@ -1,12 +1,12 @@
 export type PrimaryButtonDTO = {
   name: string;
   type: any;
-  onChange?: any;
+  onClick?: any;
 };
 export const PrimaryButton = (props: PrimaryButtonDTO) => {
-  const { name, type, onChange } = props;
+  const { name, type, onClick } = props;
   return (
-    <button className={"PrimaryButtonStyles"} type={type} onChange={onChange}>
+    <button className={"PrimaryButtonStyles"} type={type} onClick={onClick}>
       {name}
     </button>
   );
