@@ -10,7 +10,11 @@ export default function (app, db, response) {
     validate.searchRestaurants,
     controller.searchRestaurants
   );
-
+  router.post(
+    "/listPlacesCC",
+    validate.searchRestaurantsByCC,
+    controller.searchRestaurantsByCC
+  );
   router.post("/listRecords", validate.searchHistory, controller.searchHistory);
 
   return router;

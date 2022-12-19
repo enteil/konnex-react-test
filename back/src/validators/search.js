@@ -11,6 +11,7 @@ export default function (app, db, response) {
       validOrAbort,
       CheckAuthMD,
     ],
+    searchRestaurantsByCC: [CheckAuthMD],
     searchHistory: [CheckAuthMD],
   };
 }

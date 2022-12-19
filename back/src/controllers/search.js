@@ -7,14 +7,42 @@ export default function (app, db, response) {
     searchRestaurants: async function (req, res) {
       const {
         body: {
-          data: { city },
+          data: { city, latitude, longitude },
         },
         user,
       } = req;
       try {
+        const forCityUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=colombia+${city}&type=restaurant&key=${config.googleMapsKey} `;
+        const forCCUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?&location=${latitude},${longitude}&type=restaurant&key=${config.googleMapsKey} `;
         await Record.create({ text: city, userId: user.id });
         const { data } = await axios.get(
           `https://maps.googleapis.com/maps/api/place/textsearch/json?query=colombia+${city}&type=restaurant&key=${config.googleMapsKey}`
+        );
+        const result = [];
+        data.results.forEach((i) => {
+          result.push([i.name, i.formatted_address, i.rating]);
+        });
+        return response(
+          req,
+          res
+        )({
+          data: result,
+          headers: ["Nombre del Restaurante", "Dirección", "Puntuación"],
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    searchRestaurantsByCC: async function (req, res) {
+      const {
+        body: {
+          data: { latitude, longitude },
+        },
+        user,
+      } = req;
+      try {
+        const { data } = await axios.get(
+          `https://maps.googleapis.com/maps/api/place/textsearch/json?&location=${latitude},${longitude}&type=restaurant&key=${config.googleMapsKey}`
         );
         const result = [];
         data.results.forEach((i) => {
