@@ -39,6 +39,3 @@ export const Table = (props: TableDTO) => {
     </div>
   );
 };
-// item.forEach((element: any) => {
-//   return <td key={uuidv1()}>{element}</td>;
-// });

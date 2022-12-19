@@ -2,7 +2,7 @@ import config from "../config/config.js";
 import axios from "axios";
 import moment from "moment";
 export default function (app, db, response) {
-  const { User, Record } = db;
+  const { Record } = db;
   return {
     searchRestaurants: async function (req, res) {
       const {

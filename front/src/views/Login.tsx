@@ -4,7 +4,7 @@ import { EmailInput } from "../components/general/inputs/email-input";
 import { PasswordInput } from "../components/general/inputs/password-input";
 import { PrimaryButton } from "../components/general/buttons/primary-button";
 import { SecondaryButton } from "../components/general/buttons/secondary-button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveToken } from "../app/features/auth/authSlice";

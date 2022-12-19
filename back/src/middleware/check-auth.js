@@ -1,5 +1,3 @@
-import config from "../config/config.js";
-
 export default function (app, db, response) {
   const { User, Session } = db;
 

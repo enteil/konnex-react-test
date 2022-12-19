@@ -3,7 +3,7 @@ import { NavBar } from "../components/navbar/navbar";
 import { Table } from "../components/general/table/table";
 import { TextInput } from "../components/general/inputs/text-input";
 import { PrimaryButton } from "../components/general/buttons/primary-button";
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 export const Search = () => {
