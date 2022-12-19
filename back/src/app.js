@@ -47,6 +47,7 @@ const RUN_SERVER = () => {
   clog("\x1b[37m", "Creating node");
   clog("\x1b[37m", "Creating Controllers");
   router.use("/auth", routes.Auth);
+  router.use("/search", routes.Search);
   app.use("/api/v1", router);
 
   app.use((err, req, res, next) => {

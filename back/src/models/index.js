@@ -3,11 +3,13 @@ import Sequelize from "sequelize";
 
 import User from "./user.js";
 import Session from "./session.js";
+import Record from "./record.js";
 
 function Models() {
   this.models = {
     User,
     Session,
+    Record,
   };
   this.sequelize = null;
   this.Sequelize = Sequelize;

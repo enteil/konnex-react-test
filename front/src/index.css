@@ -20,6 +20,9 @@ code {
   .PrimaryTitleStyles {
     @apply text-2xl;
   }
+  .SecondaryTitleStyles {
+    @apply text-xl text-indigo-600;
+  }
   .PrimaryButtonStyles {
     @apply p-1 max-w-xs rounded-xl text-white bg-indigo-600 hover:bg-indigo-800 duration-300;
   }
@@ -40,5 +43,11 @@ code {
   }
   .FormStyles {
     @apply flex flex-col gap-4;
+  }
+  .NavBarStyles {
+    @apply p-4 bg-slate-100;
+  }
+  .TableStyles {
+    @apply bg-slate-100 my-4 min-w-full rounded-xl;
   }
 }

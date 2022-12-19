@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from "react";
+import config from "../config/config";
 import { PrimaryTitle } from "../components/general/titles/primary-title";
 import { EmailInput } from "../components/general/inputs/email-input";
 import { PasswordInput } from "../components/general/inputs/password-input";
 import { PrimaryButton } from "../components/general/buttons/primary-button";
 import { SecondaryButton } from "../components/general/buttons/secondary-button";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { saveToken } from "../app/features/auth/authSlice";
+import axios from "axios";
+
 export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const stateAuth = useSelector((state: any) => state.user);
-  useEffect(() => {
-    dispatch(saveToken("esto es lo que estoy pasando prro"));
-    if (stateAuth.token || stateAuth.token !== "") {
-      navigate("/search");
-    }
-  }, [dispatch, navigate, stateAuth.token]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const loginAction = async () => {
+    const body = { data: { email, password } };
+    const result = await axios.post(`${config.baseUrl}auth/login`, body);
+    if (result.status === 200) {
+      dispatch(saveToken(result.data.data));
+      navigate("/search");
+    } else {
+      // @ts-ignore
+      alert(result.message);
+    }
+  };
   const renderPrimaryTitleLogin = () => {
     return <PrimaryTitle name={"Iniciar sesión"} />;
   };
@@ -39,7 +46,13 @@ export const Login = () => {
     );
   };
   const renderPrimaryButtonLogin = () => {
-    return <PrimaryButton type="submit" name={"Iniciar sesión"} />;
+    return (
+      <PrimaryButton
+        type="submit"
+        name={"Iniciar sesión"}
+        onClick={() => loginAction()}
+      />
+    );
   };
   const renderSecondaryButtonRegister = () => {
     return (
@@ -50,18 +63,18 @@ export const Login = () => {
       />
     );
   };
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-  };
+
   return (
     <div className="FormContainer">
-      <form className="FormStyles" onSubmit={handleSubmit}>
-        {renderPrimaryTitleLogin()}
-        {renderEmailInput()}
-        {renderPasswordInput()}
-        {renderPrimaryButtonLogin()}
-        {renderSecondaryButtonRegister()}
-      </form>
+      <div className="FormStyles">
+        <>
+          {renderPrimaryTitleLogin()}
+          {renderEmailInput()}
+          {renderPasswordInput()}
+          {renderPrimaryButtonLogin()}
+          {renderSecondaryButtonRegister()}
+        </>
+      </div>
     </div>
   );
 };

@@ -1,31 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PrimaryTitle } from "../components/general/titles/primary-title";
-import { NameInput } from "../components/general/inputs/name-input";
+import { TextInput } from "../components/general/inputs/text-input";
 import { EmailInput } from "../components/general/inputs/email-input";
 import { PasswordInput } from "../components/general/inputs/password-input";
 import { PrimaryButton } from "../components/general/buttons/primary-button";
 import { SecondaryButton } from "../components/general/buttons/secondary-button";
 import { ConfirmPasswordInput } from "../components/general/inputs/confim-password-input";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import config from "../config/config";
+import axios from "axios";
+import { saveToken } from "../app/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 export const Register = () => {
   const navigate = useNavigate();
-  const stateAuth = useSelector((state: any) => state.user);
-  useEffect(() => {
-    if (stateAuth.token || stateAuth.token !== "") {
-      navigate("/search");
-    }
-  }, [navigate, stateAuth.token]);
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const registerAction = async () => {
+    const body = { data: { name, email, password, confirmPassword } };
+    const result = await axios.post(`${config.baseUrl}auth/register`, body);
+    if (result.status === 200) {
+      dispatch(saveToken(result.data.data));
+      navigate("/search");
+    } else {
+      // @ts-ignore
+      alert(result.message);
+    }
+  };
   const renderPrimaryTitleRegister = () => {
     return <PrimaryTitle name={"Crea una cuenta"} />;
   };
-  const renderNameInput = () => {
+  const renderTextInput = () => {
     return (
-      <NameInput value={name} onChange={(e: any) => setName(e.target.value)} />
+      <TextInput
+        label={"Nombre"}
+        placeholder={"Tu nombre"}
+        value={name}
+        onChange={(e: any) => setName(e.target.value)}
+      />
     );
   };
   const renderEmailInput = () => {
@@ -53,7 +67,13 @@ export const Register = () => {
     );
   };
   const renderPrimaryButtonRegister = () => {
-    return <PrimaryButton type="submit" name={"Crear"} />;
+    return (
+      <PrimaryButton
+        type="submit"
+        name={"Crear"}
+        onClick={() => registerAction()}
+      />
+    );
   };
   const renderSecondaryButtonLogin = () => {
     return (
@@ -64,21 +84,17 @@ export const Register = () => {
       />
     );
   };
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(email);
-  };
   return (
     <div className="FormContainer">
-      <form className="FormStyles" onSubmit={handleSubmit}>
+      <div className="FormStyles">
         {renderPrimaryTitleRegister()}
-        {renderNameInput()}
+        {renderTextInput()}
         {renderEmailInput()}
         {renderPasswordInput()}
         {renderConfirmPasswordInput()}
         {renderPrimaryButtonRegister()}
         {renderSecondaryButtonLogin()}
-      </form>
+      </div>
     </div>
   );
 };

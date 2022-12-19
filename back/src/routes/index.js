@@ -1,7 +1,9 @@
 import Auth from "./auth.js";
+import Search from "./search.js";
 function Routes(app, db, response) {
   this.routes = {
     Auth,
+    Search,
   };
 
   this.associate = function () {

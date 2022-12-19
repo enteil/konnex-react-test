@@ -17,6 +17,7 @@ export default (sequelize, DataTypes) => {
 
   User.associate = function (models) {
     models.User.hasMany(models.Session);
+    models.User.hasMany(models.Record);
   };
   User.prototype.truePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
@@ -24,6 +25,7 @@ export default (sequelize, DataTypes) => {
   User.prototype.createPassword = async function (password) {
     return await bcrypt.hash(password, 10);
   };
+
   User.prototype.createToken = async function (ipAddress) {
     let token = await bcrypt.hash(
       ipAddress + "-" + Date.now() + "-" + this.id,

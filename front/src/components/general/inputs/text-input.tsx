@@ -1,18 +1,20 @@
 export type TextInputDTO = {
   value: string;
+  label: string;
+  placeholder: string;
   onChange: any;
 };
-export const NameInput = (props: TextInputDTO) => {
-  const { value, onChange } = props;
+export const TextInput = (props: TextInputDTO) => {
+  const { value, label, placeholder, onChange } = props;
   return (
     <>
       <div className="InputGroupStyles">
         <label htmlFor="name" className="InputLabelStyles">
-          Nombre
+          {label}
         </label>
         <input
-          id={"name"}
-          placeholder={"Tu nombre"}
+          id={label}
+          placeholder={placeholder}
           className={"InputStyles"}
           type={"text"}
           value={value}
