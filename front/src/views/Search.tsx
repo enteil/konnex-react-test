@@ -3,10 +3,13 @@ import { NavBar } from "../components/navbar/navbar";
 import { Table } from "../components/general/table/table";
 import { TextInput } from "../components/general/inputs/text-input";
 import { PrimaryButton } from "../components/general/buttons/primary-button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { success, error } from "@pnotify/core";
+import { useNavigate } from "react-router-dom";
 export const Search = () => {
+  const navigate = useNavigate();
   const stateAuth = useSelector((state: any) => state.user);
   const listPlaces = async () => {
     const body = { data: { city: searchInput } };
@@ -15,21 +18,19 @@ export const Search = () => {
         Authorization: `Bearer ${stateAuth.token}`,
       },
     };
-    const result = await axios.post(
-      `${config.baseUrl}search/listPlaces`,
-      body,
-      headers
-    );
-    if (result.status === 200) {
-      setSearchResult({
-        headers: result.data.data.headers,
-        data: result.data.data.data,
+    await axios
+      .post(`${config.baseUrl}search/listPlaces`, body, headers)
+      .then((result) => {
+        success({ title: "OK", text: result.data.message });
+        setSearchResult({
+          headers: result.data.data.headers,
+          data: result.data.data.data,
+        });
+        listRecords();
+      })
+      .catch((err) => {
+        error({ title: "Error", text: err.response.data.message });
       });
-      listRecords();
-    } else {
-      // @ts-ignore
-      alert(result.message);
-    }
   };
   const listRecords = async () => {
     const headers = {
@@ -37,20 +38,15 @@ export const Search = () => {
         Authorization: `Bearer ${stateAuth.token}`,
       },
     };
-    const result = await axios.post(
-      `${config.baseUrl}search/listRecords`,
-      {},
-      headers
-    );
-    if (result.status === 200) {
-      setSearchHistory({
-        headers: result.data.data.headers,
-        data: result.data.data.data,
-      });
-    } else {
-      // @ts-ignore
-      alert(result.message);
-    }
+    await axios
+      .post(`${config.baseUrl}search/listRecords`, {}, headers)
+      .then((result) => {
+        setSearchHistory({
+          headers: result.data.data.headers,
+          data: result.data.data.data,
+        });
+      })
+      .catch((err) => {});
   };
 
   const [searchInput, setSearchInput] = useState("");
@@ -94,7 +90,11 @@ export const Search = () => {
   const renderTableHistory = () => {
     return <Table headers={searchHistory.headers} data={searchHistory.data} />;
   };
-
+  useEffect(() => {
+    if (stateAuth.token === null) {
+      navigate("/");
+    }
+  }, [navigate, stateAuth]);
   return (
     <>
       <div>{renderNavBar()}</div>

@@ -4,10 +4,11 @@ import { EmailInput } from "../components/general/inputs/email-input";
 import { PasswordInput } from "../components/general/inputs/password-input";
 import { PrimaryButton } from "../components/general/buttons/primary-button";
 import { SecondaryButton } from "../components/general/buttons/secondary-button";
+import { saveToken } from "../app/features/auth/authSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { saveToken } from "../app/features/auth/authSlice";
+import { success, error } from "@pnotify/core";
 import axios from "axios";
 
 export const Login = () => {
@@ -17,14 +18,16 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const loginAction = async () => {
     const body = { data: { email, password } };
-    const result = await axios.post(`${config.baseUrl}auth/login`, body);
-    if (result.status === 200) {
-      dispatch(saveToken(result.data.data));
-      navigate("/search");
-    } else {
-      // @ts-ignore
-      alert(result.message);
-    }
+    await axios
+      .post(`${config.baseUrl}auth/login`, body)
+      .then((result) => {
+        success({ title: "OK", text: result.data.message });
+        dispatch(saveToken(result.data.data));
+        navigate("/search");
+      })
+      .catch((err) => {
+        error({ title: "Error", text: err.response.data.message });
+      });
   };
   const renderPrimaryTitleLogin = () => {
     return <PrimaryTitle name={"Iniciar sesión"} />;
@@ -65,15 +68,17 @@ export const Login = () => {
   };
 
   return (
-    <div className="FormContainer">
-      <div className="FormStyles">
-        <>
-          {renderPrimaryTitleLogin()}
-          {renderEmailInput()}
-          {renderPasswordInput()}
-          {renderPrimaryButtonLogin()}
-          {renderSecondaryButtonRegister()}
-        </>
+    <div>
+      <div className="FormContainer">
+        <div className="FormStyles">
+          <>
+            {renderPrimaryTitleLogin()}
+            {renderEmailInput()}
+            {renderPasswordInput()}
+            {renderPrimaryButtonLogin()}
+            {renderSecondaryButtonRegister()}
+          </>
+        </div>
       </div>
     </div>
   );

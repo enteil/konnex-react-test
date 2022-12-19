@@ -8,6 +8,7 @@ import { SecondaryButton } from "../components/general/buttons/secondary-button"
 import { ConfirmPasswordInput } from "../components/general/inputs/confim-password-input";
 import { useNavigate } from "react-router-dom";
 import config from "../config/config";
+import { success, error } from "@pnotify/core";
 import axios from "axios";
 import { saveToken } from "../app/features/auth/authSlice";
 import { useDispatch } from "react-redux";
@@ -20,14 +21,16 @@ export const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const registerAction = async () => {
     const body = { data: { name, email, password, confirmPassword } };
-    const result = await axios.post(`${config.baseUrl}auth/register`, body);
-    if (result.status === 200) {
-      dispatch(saveToken(result.data.data));
-      navigate("/search");
-    } else {
-      // @ts-ignore
-      alert(result.message);
-    }
+    await axios
+      .post(`${config.baseUrl}auth/register`, body)
+      .then((result) => {
+        success({ title: "OK", text: result.data.message });
+        dispatch(saveToken(result.data.data));
+        navigate("/search");
+      })
+      .catch((err) => {
+        error({ title: "Error", text: err.response.data.message });
+      });
   };
   const renderPrimaryTitleRegister = () => {
     return <PrimaryTitle name={"Crea una cuenta"} />;

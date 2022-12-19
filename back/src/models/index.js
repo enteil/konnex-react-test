@@ -16,16 +16,16 @@ function Models() {
   this.Op = Sequelize.Op;
 
   this.associate = function () {
-    var names = Object.keys(this.models);
+    let names = Object.keys(this.models);
     for (var i = 0; i < names.length; i++) {
-      var modelData = this.models[names[i]];
+      let modelData = this.models[names[i]];
 
-      var model = modelData(this.sequelize, this.Sequelize.DataTypes);
+      let model = modelData(this.sequelize, this.Sequelize.DataTypes);
       this[model.name] = model;
     }
 
     for (var i = 0; i < names.length; i++) {
-      var modelName = names[i];
+      let modelName = names[i];
       if (this[modelName].associate) {
         this[modelName].associate(this);
       }
