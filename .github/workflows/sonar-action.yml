@@ -1,21 +1,19 @@
-name: GitHub Actions Demo
+name: GitHub Actions Demo 2
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
       - development
-  pull_request:
-    types: [opened, synchronize, reopened]
-  name: Main Workflow
-  jobs:
-    sonarcloud:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
-        - name: SonarCloud Scan
-          uses: sonarsource/sonarcloud-github-action@master
-          env:
-            GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    name: Main Workflow
+    jobs:
+      sonarcloud:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+            with:
+              fetch-depth: 0
+          - name: SonarCloud Scan
+            uses: sonarsource/sonarcloud-github-action@master
+            env:
+              GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
