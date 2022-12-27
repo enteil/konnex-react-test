@@ -12,8 +12,6 @@ export default function (app, db, response) {
         user,
       } = req;
       try {
-        const forCityUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=colombia+${city}&type=restaurant&key=${config.googleMapsKey} `;
-        const forCCUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?&location=${latitude},${longitude}&type=restaurant&key=${config.googleMapsKey} `;
         await Record.create({ text: city, userId: user.id });
         const { data } = await axios.get(
           `https://maps.googleapis.com/maps/api/place/textsearch/json?query=colombia+${city}&type=restaurant&key=${config.googleMapsKey}`
